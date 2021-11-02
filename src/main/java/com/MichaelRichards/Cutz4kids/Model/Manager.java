@@ -10,6 +10,8 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class Manager extends User {
 
+    private UserRoles userRoles = UserRoles.Manager;
+
     public Manager(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -17,7 +19,7 @@ public class Manager extends User {
         this.password = password;
     }
 
-    private Manager(int id, String firstName, String lastName, String username, String password) {
+    private Manager(Long id, String firstName, String lastName, String username, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
