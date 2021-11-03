@@ -4,6 +4,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
+@DiscriminatorValue(value="Manager")
 public class Manager extends User {
 
 //    private List<UserRoles> userRoles;

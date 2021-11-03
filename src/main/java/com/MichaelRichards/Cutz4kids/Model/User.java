@@ -1,6 +1,7 @@
 package com.MichaelRichards.Cutz4kids.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.DiscriminatorFormula;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,12 +16,16 @@ import java.util.Objects;
 @Entity
 @Table(name = "user")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@DiscriminatorColumn(
+        name="discriminator",
+        discriminatorType=DiscriminatorType.STRING
+)
+@DiscriminatorValue(value="User")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @NotNull
     public Long id;
 
     @NotNull
@@ -36,7 +41,7 @@ public class User implements UserDetails {
     public String lastName;
 
     @NotNull
-    @Column(name = "user_name")
+    @Column(name = "username")
     public String username;
 
     @NotNull
@@ -49,8 +54,8 @@ public class User implements UserDetails {
     @Column(name = "enabled")
     private boolean enabled;
 
-//    @Enumerated(EnumType.STRING)
-//    private UserRoles userRoles;
+    @Transient
+    private final UserRoles userRoles = UserRoles.User;
 
 //    public LocalDateTime localDateTime;
 

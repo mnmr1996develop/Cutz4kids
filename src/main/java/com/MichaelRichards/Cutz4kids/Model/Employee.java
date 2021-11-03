@@ -8,11 +8,10 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
-@Table(name = "user")
-public class Employee extends User {
-    public Employee() {
-    }
+//@Entity
+//@Table(name = "user")
+public class Employee {
+
 
 
 
