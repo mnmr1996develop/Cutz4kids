@@ -3,10 +3,12 @@ package com.MichaelRichards.Cutz4kids.Sevice;
 import com.MichaelRichards.Cutz4kids.DAO.UserRepository;
 import com.MichaelRichards.Cutz4kids.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UserServiceImpl implements UserService{
 
     @Autowired

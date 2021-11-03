@@ -18,7 +18,7 @@ import java.util.Objects;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @NotNull
     public Long id;
@@ -26,6 +26,10 @@ public class User implements UserDetails {
     @NotNull
     @Column(name = "first_name")
     public String firstName;
+
+    @NotNull
+    @Column(name = "email")
+    public String email;
 
     @NotNull
     @Column(name = "last_name")
@@ -36,20 +40,24 @@ public class User implements UserDetails {
     public String username;
 
     @NotNull
-    @Column()
+    @Column(name = "password")
     public String password;
 
-    private Boolean locked;
+    @Column(name = "locked")
+    private boolean locked;
 
-    private Boolean enabled;
+    @Column(name = "enabled")
+    private boolean enabled;
 
-    @Enumerated(EnumType.STRING)
-    private UserRoles userRoles;
+//    @Enumerated(EnumType.STRING)
+//    private UserRoles userRoles;
 
-    public LocalDateTime localDateTime;
+//    public LocalDateTime localDateTime;
 
 
     public User() {
+        enabled = true;
+        locked = false;
     }
 
 
@@ -77,6 +85,14 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -97,21 +113,21 @@ public class User implements UserDetails {
         this.enabled = enabled;
     }
 
-    public UserRoles getUserRoles() {
-        return userRoles;
-    }
+//    public UserRoles getUserRoles() {
+//        return userRoles;
+//    }
+//
+//    public void setUserRoles(UserRoles userRoles) {
+//        this.userRoles = userRoles;
+//    }
 
-    public void setUserRoles(UserRoles userRoles) {
-        this.userRoles = userRoles;
-    }
-
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
-    }
+//    public LocalDateTime getLocalDateTime() {
+//        return localDateTime;
+//    }
+//
+//    public void setLocalDateTime(LocalDateTime localDateTime) {
+//        this.localDateTime = localDateTime;
+//    }
 
     @Override
     public String getPassword() {
@@ -124,7 +140,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userRoles.name());
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("userRoles.name()");
         return Collections.singletonList(simpleGrantedAuthority);
     }
 
@@ -158,12 +174,12 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(locked, user.locked) && Objects.equals(enabled, user.enabled) && userRoles == user.userRoles && Objects.equals(localDateTime, user.localDateTime);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(email, user.email) && Objects.equals(lastName, user.lastName) && Objects.equals(username, user.username) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, username, password, locked, enabled, userRoles, localDateTime);
+        return Objects.hash(id, firstName, email, lastName, username, password);
     }
 
     @Override
@@ -171,13 +187,13 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
+                ", email='" + email + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", locked=" + locked +
                 ", enabled=" + enabled +
-                ", userRoles=" + userRoles +
-                ", localDateTime=" + localDateTime +
+                ", userRoles=" + "userRoles" +
                 '}';
     }
 }
