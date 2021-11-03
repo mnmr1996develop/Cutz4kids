@@ -20,7 +20,7 @@ import java.util.Objects;
         name="discriminator",
         discriminatorType=DiscriminatorType.STRING
 )
-@DiscriminatorValue(value="User")
+@DiscriminatorValue(value="Customer")
 public class User implements UserDetails {
 
     @Id

@@ -13,6 +13,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin().loginPage("/loginForm");
+       http.authorizeRequests().anyRequest().authenticated()
+               .and()
+               .formLogin().loginPage("/loginForm")
+               .loginProcessingUrl("/processSignUpForm")
+               .permitAll()
+                .and()
+                .logout().permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/access-denied");
     }
 }
