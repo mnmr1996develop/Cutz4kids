@@ -23,7 +23,7 @@
 <body>
 
 <div>
-        <form action="#" th:action="@{/user/processSignUpForm}" th:object="${user}" method="post">
+        <form action="#" th:action="@{/processSignUpForm}" th:object="${user}" method="post">
             <input type="text" th:field="*{firstName}" placeholder="First Name">
             <input type="text" th:field="*{lastName}" placeholder="Last Name">
             <input type="text" th:field="*{email}" placeholder="Email">

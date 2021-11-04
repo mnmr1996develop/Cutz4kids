@@ -16,6 +16,9 @@ import javax.validation.Valid;
 @RequestMapping
 public class signInController {
 
+    public signInController() {
+    }
+
     @Autowired
     private UserService userService;
 
@@ -38,7 +41,7 @@ public class signInController {
         return "signupForm";
     }
 
-    @RequestMapping("user/processSignUpForm")
+    @RequestMapping("processSignUpForm")
     public String processForm(
             @ModelAttribute("user") User user,
             BindingResult theResult) {
@@ -49,7 +52,7 @@ public class signInController {
             return "loginForm";
         }
         else {
-            userService.save(user);
+           // userService.save(user);
             return "Customer-Confirmation";
         }
     }
