@@ -2,10 +2,12 @@ package com.MichaelRichards.Cutz4kids.Controller;
 
 import com.MichaelRichards.Cutz4kids.Model.User;
 import com.MichaelRichards.Cutz4kids.Sevice.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping
 public class signInController {
+
 
     public signInController() {
     }
@@ -28,8 +31,31 @@ public class signInController {
     }
 
     @GetMapping("/loginForm")
-    public String showLogInForm(){
+    public String showLogInForm(Model theModel){
+
+        theModel.addAttribute("user", new User());
+
         return "login";
+    }
+
+
+    @RequestMapping("/processSignInForm")
+    public String processSignInForm(
+            @Valid @ModelAttribute("user") User user,
+            BindingResult theResult) {
+
+        System.out.println(user);
+
+        User temp  = userService.findUserByUsername(user.username);
+        System.out.println(temp);
+
+        if(theResult.hasErrors()) {
+            return "loginForm";
+        }
+        else {
+            userService.save(user);
+            return "Customer-Confirmation";
+        }
     }
 
     @GetMapping("/signUp")
@@ -42,17 +68,20 @@ public class signInController {
     }
 
     @RequestMapping("processSignUpForm")
-    public String processForm(
-            @ModelAttribute("user") User user,
+    public String processSignUpForm(
+            @Valid @ModelAttribute("user") User user,
             BindingResult theResult) {
 
         System.out.println(user);
+
+        User temp  = userService.findUserByUsername(user.username);
+        System.out.println(temp);
 
         if(theResult.hasErrors()) {
             return "loginForm";
         }
         else {
-           // userService.save(user);
+            userService.save(user);
             return "Customer-Confirmation";
         }
     }

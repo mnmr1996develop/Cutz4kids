@@ -67,12 +67,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- added in c3p0-->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-c3p0</artifactId>
-			<version>5.6.1.Final</version>
-		</dependency>
 	</dependencies>
 
 	<build>

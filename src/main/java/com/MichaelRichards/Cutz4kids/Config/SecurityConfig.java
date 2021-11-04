@@ -42,14 +42,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       http.authorizeRequests().anyRequest().authenticated()
-               .and()
-               .formLogin().loginPage("/loginForm")
-               .loginProcessingUrl("/processSignInForm")
-               .permitAll();
-//                .and()
-//                .logout().permitAll()
-//                .and()
-//                .exceptionHandling().accessDeniedPage("/access-denied");
+
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/Customer-confirmation").hasAnyRole()
+                .and().formLogin().loginPage("/loginForm")
+                .loginProcessingUrl("/processSignInForm")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .permitAll();
+
     }
+
+        //        http.csrf().disable();
+
+////                .formLogin().loginPage("/loginForm")
+////                .loginProcessingUrl("/processSignInForm")
+////                .permitAll();
+//
+//
+////       http.authorizeRequests().anyRequest().authenticated()
+////               .and()
+////               .formLogin().loginPage("/loginForm")
+////               .loginProcessingUrl("/processSignInForm")
+////               .permitAll();
+////                .and()
+////                .logout().permitAll()
+////                .and()
+////                .exceptionHandling().accessDeniedPage("/access-denied");
+
 }

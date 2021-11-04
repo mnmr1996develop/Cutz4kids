@@ -1,16 +1,17 @@
 package com.MichaelRichards.Cutz4kids.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.DiscriminatorFormula;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import javax.validation.constraints.Past;
 import java.util.Collection;
 import java.util.Collections;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -28,23 +29,23 @@ public class User implements UserDetails {
     @Column(name = "id")
     public Long id;
 
-    @NotNull
+    @NotNull(message = "is required")
     @Column(name = "first_name")
     public String firstName;
 
-    @NotNull
+    @NotNull(message = "is required")
     @Column(name = "email")
     public String email;
 
-    @NotNull
+    @NotNull(message = "is required")
     @Column(name = "last_name")
     public String lastName;
 
-    @NotNull
+    @NotNull(message = "is required")
     @Column(name = "username")
     public String username;
 
-    @NotNull
+    @NotNull(message = "is required")
     @Column(name = "password")
     public String password;
 
@@ -54,10 +55,25 @@ public class User implements UserDetails {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @Past
+    @Column(name = "birthday")
+    private Date birthday;
+
     @Transient
     private final UserRoles userRoles = UserRoles.User;
 
-//    public LocalDateTime localDateTime;
+    public User(String firstName, String email, String lastName, String username, String password, Date birthday) {
+        this.firstName = firstName;
+        this.email = email;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.birthday = birthday;
+        this.locked = true;
+        this.enabled = true;
+    }
+
+    //    public LocalDateTime localDateTime;
 
 
     public User() {
@@ -118,21 +134,21 @@ public class User implements UserDetails {
         this.enabled = enabled;
     }
 
-//    public UserRoles getUserRoles() {
-//        return userRoles;
-//    }
-//
-//    public void setUserRoles(UserRoles userRoles) {
-//        this.userRoles = userRoles;
-//    }
+/*    public UserRoles getUserRoles() {
+        return userRoles;
+    }
 
-//    public LocalDateTime getLocalDateTime() {
-//        return localDateTime;
-//    }
-//
-//    public void setLocalDateTime(LocalDateTime localDateTime) {
-//        this.localDateTime = localDateTime;
-//    }
+    public void setUserRoles(UserRoles userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }*/
 
     @Override
     public String getPassword() {
