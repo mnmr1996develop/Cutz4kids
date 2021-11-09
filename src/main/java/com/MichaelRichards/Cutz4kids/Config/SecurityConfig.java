@@ -57,19 +57,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-        //        http.csrf().disable();
-
-////                .formLogin().loginPage("/loginForm")
-////                .loginProcessingUrl("/processSignInForm")
-////                .permitAll();
-//
-//
-////       http.authorizeRequests().anyRequest().authenticated()
-////               .and()
-////               .formLogin().loginPage("/loginForm")
-////               .loginProcessingUrl("/processSignInForm")
-////               .permitAll();
-////                .and()
 ////                .logout().permitAll()
 ////                .and()
 ////                .exceptionHandling().accessDeniedPage("/access-denied");
