@@ -2,6 +2,7 @@ package com.MichaelRichards.Cutz4kids.Config;
 
 import javax.sql.DataSource;
 
+import com.MichaelRichards.Cutz4kids.Model.User;
 import com.MichaelRichards.Cutz4kids.Sevice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

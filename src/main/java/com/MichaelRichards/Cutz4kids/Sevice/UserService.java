@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,6 +61,16 @@ public class UserService implements UserDetailsService{
     private UserRepository userRepository;
 
 
+
+    public List<User> findAll(){
+        List<User> users = userRepository.findAll();
+        if (users.isEmpty()){
+            return new ArrayList<>();
+        }
+        else return users;
+    }
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Could not find a user by that name "));
@@ -69,12 +80,26 @@ public class UserService implements UserDetailsService{
     public User findUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
         if(user.isEmpty()){
-            return null;
+            throw new RuntimeException("Did not find user by the name - " + username);
         }
         else {
             return user.get();
         }
 
+    }
+
+    public List<User> searchBy(String theName) {
+
+        List<User> results = null;
+
+        if (theName != null && (theName.trim().length() > 0)) {
+            results = userRepository.findByFirstNameContainsOrLastNameContainsAllIgnoreCase(theName, theName);
+        }
+        else {
+            results = findAll();
+        }
+
+        return results;
     }
 
 
