@@ -1,5 +1,6 @@
 package com.MichaelRichards.Cutz4kids.Model;
 
+import com.MichaelRichards.Cutz4kids.UserValidator.ValidEmail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.sql.Date;
@@ -19,37 +21,38 @@ import java.util.Objects;
 @Entity
 @Table(name = "user")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@DiscriminatorColumn(
-        name="discriminator",
-        discriminatorType=DiscriminatorType.STRING
-)
-@DiscriminatorValue(value="Customer")
+//@DiscriminatorColumn(
+//        name="discriminator",
+//        discriminatorType=DiscriminatorType.STRING
+//)
+//@DiscriminatorValue(value="Customer")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public Long id;
+    private Long id;
 
     @NotNull(message = "is required")
     @Column(name = "first_name")
-    public String firstName;
+    private String firstName;
 
     @NotNull(message = "is required")
     @Column(name = "email")
-    public String email;
+    @ValidEmail
+    private String email;
 
     @NotNull(message = "is required")
     @Column(name = "last_name")
-    public String lastName;
+    private String lastName;
 
     @NotNull(message = "is required")
     @Column(name = "username")
-    public String username;
+    private String username;
 
     @NotNull(message = "is required")
     @Column(name = "password")
-    public String password;
+    private String password;
 
     @Column(name = "locked")
     private boolean locked;
@@ -58,11 +61,13 @@ public class User implements UserDetails {
     private boolean enabled;
 
     @Past
+    @Transient
     @Column(name = "birthday")
     private Date birthday;
 
-    @Transient
-    private final UserRoles userRoles = UserRoles.User;
+    @Column(name = "discriminator")
+    @Enumerated(EnumType.STRING)
+    private UserRoles userRole;
 
     public User(String firstName, String email, String lastName, String username, String password, Date birthday) {
         this.firstName = firstName;
@@ -73,6 +78,7 @@ public class User implements UserDetails {
         this.birthday = birthday;
         this.locked = true;
         this.enabled = true;
+        this.userRole = UserRoles.User;
     }
 
     //    public LocalDateTime localDateTime;
@@ -81,6 +87,7 @@ public class User implements UserDetails {
     public User() {
         enabled = true;
         locked = false;
+        this.userRole = UserRoles.User;
     }
 
 
@@ -136,21 +143,13 @@ public class User implements UserDetails {
         this.enabled = enabled;
     }
 
-/*    public UserRoles getUserRoles() {
-        return userRoles;
+    public UserRoles getUserRoles() {
+        return this.userRole;
     }
 
     public void setUserRoles(UserRoles userRoles) {
-        this.userRoles = userRoles;
+        this.userRole = userRoles;
     }
-
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
-    }*/
 
     @Override
     public String getPassword() {

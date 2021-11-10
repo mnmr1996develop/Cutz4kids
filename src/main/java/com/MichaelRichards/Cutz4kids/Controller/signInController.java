@@ -46,16 +46,17 @@ public class signInController {
 
         System.out.println(user);
 
-        User temp  = userService.findUserByUsername(user.username);
+        User temp  = userService.findUserByUsername(user.getUsername());
         System.out.println(temp);
 
         if(theResult.hasErrors()) {
             return "loginForm";
         }
-        else {
-            userService.save(user);
-            return "Customer-Confirmation";
-        }
+
+
+        userService.save(user);
+
+        return "registration-confirmation";
     }
 
     @GetMapping("/signUp")
@@ -70,12 +71,9 @@ public class signInController {
     @RequestMapping("processSignUpForm")
     public String processSignUpForm(
             @Valid @ModelAttribute("user") User user,
-            BindingResult theResult) {
+            BindingResult theResult,
+            Model model) {
 
-        System.out.println(user);
-
-        User temp  = userService.findUserByUsername(user.username);
-        System.out.println(temp);
 
         if(theResult.hasErrors()) {
             return "loginForm";
