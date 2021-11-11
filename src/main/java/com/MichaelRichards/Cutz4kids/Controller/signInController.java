@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -82,6 +83,11 @@ public class signInController {
             userService.save(user);
             return "Customer-Confirmation";
         }
+    }
+
+    @GetMapping(path = "confirm")
+    public String confirm(@RequestParam("token") String token){
+        return userService.confirmToken(token);
     }
 
 

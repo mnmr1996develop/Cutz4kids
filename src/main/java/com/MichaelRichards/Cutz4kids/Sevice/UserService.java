@@ -103,6 +103,25 @@ public class UserService implements UserDetailsService{
         return token;
     }
 
+    public String confirmToken(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenService.getConfirmationToken(token).orElseThrow(() -> new IllegalStateException("Token Not Found"));
+
+        if(confirmationToken.getConfirmedAt() != null){
+            throw new IllegalStateException("email already confirmed");
+        }
+
+        if(confirmationToken.getExpiredAt().isBefore(LocalDateTime.now())){
+            throw new IllegalStateException("Token expired");
+        }
+
+        confirmationToken.setConfirmedAt(LocalDateTime.now());
+        UserService.enableUser(confirmationToken.getUser().getEmail());
+
+        return "/";
+    }
+
+    private static void enableUser(String email) {
+    }
 }
 
 

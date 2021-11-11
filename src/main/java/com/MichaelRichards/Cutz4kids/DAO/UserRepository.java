@@ -11,7 +11,9 @@ import java.util.Optional;
 @Transactional
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-        Optional<User> findByUsername(String email);
+        Optional<User> findByUsername(String userName);
+
+        Optional<User> findByEmail(String email);
 
         public List<User> findByFirstNameContainsOrLastNameContainsAllIgnoreCase(String name, String lName);
 }
