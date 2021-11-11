@@ -1,10 +1,49 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+
+<!--<head>-->
+
+<!--    <title>Register New User Form</title>-->
+
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+
+<!--    &lt;!&ndash; Reference Bootstrap files &ndash;&gt;-->
+<!--    <link rel="stylesheet"-->
+<!--          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+
+<!--    <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+<!--    <style>-->
+<!--		.error {color:red}-->
+<!--	</style>-->
+
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<div>-->
+<!--        <form action="#" th:action="@{/processSignUpForm}" th:object="${user}" method="post">-->
+<!--            <input type="text" th:field="*{firstName}" placeholder="First Name">-->
+<!--            <input type="text" th:field="*{lastName}" placeholder="Last Name">-->
+<!--            <input type="text" th:field="*{email}" placeholder="Email">-->
+<!--            <input type="text" th:field="*{Username}" placeholder="Username">-->
+<!--            <input type="password" th:field="*{password}" placeholder="Password">-->
+<!--            <input type="password" placeholder="Renter Password">-->
+<!--            <input type="date" placeholder="Birthday">-->
+<!--            <input type="submit"/>-->
+<!--        </form>-->
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head>
-
-    <title>Register New User Form</title>
-
+    <title>Login Page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -12,27 +51,130 @@
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
     <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <style>
-		.error {color:red}
-	</style>
-
 </head>
 
 <body>
 
-<div>
-        <form action="#" th:action="@{/processSignUpForm}" th:object="${user}" method="post">
-            <input type="text" th:field="*{firstName}" placeholder="First Name">
-            <input type="text" th:field="*{lastName}" placeholder="Last Name">
-            <input type="text" th:field="*{email}" placeholder="Email">
-            <input type="text" th:field="*{Username}" placeholder="Username">
-            <input type="password" th:field="*{password}" placeholder="Password">
-            <input type="password" placeholder="Renter Password">
-            <input type="date" placeholder="Birthday">
-            <input type="submit"/>
-        </form>
+<div style="text-align:center">
+    <nav class="fh5co-nav" role="navigation">
+        <div class="container">
+            <div class="top-menu">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div id="fh5co-logo"><a href="/">Cutz4kids<span>.</span></a></div>
+                    </div>
+                    <div class="col-sm-10 text-right menu-1">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/Locations">Locations</a></li>
+                            <li class="has-dropdown"><a href="#">Dropdown</a>
+                                <ul class="dropdown">
+                                    <li><a href="/loginForm">Infrastructure</a></li>
+                                    <li><a href="#">Residential</a></li>
+                                    <li><a href="#">Environmental</a></li>
+                                    <li ><a href="#">Megabuilders</a></li>
+                                </ul>
+                            </li>
+                            <li sec:authorize="!isAuthenticated()" class="active"><a href="/loginForm">Login</a></li>
+                            <li sec:authorize="isAuthenticated()"><a class="nav-link" href="javascript: document.logoutForm.submit()" >Logout</a></li>
+                            <li><a href="/loginForm">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form>
+        </div>
+    </nav>
+    <div id="signup" style="margin: auto; text-align:center"
+         class="mainbox col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-2">
+
+        <div class="panel panel-info">
+
+            <div class="panel-heading">
+                <div class="panel-title">Sign In</div>
+            </div>
+
+            <div style="padding-top: 30px" class="panel-body">
+
+                <!-- Sign UP -->
+                <form action="#" th:action="@{/processSignUpForm}" th:object="${user}" method="post">
+
+                    <!-- Place for messages: error, alert etc ... -->
+                    <div class="form-group">
+                        <div class="col-xs-15">
+                            <div>
+
+                                <!-- Check for login error -->
+                                <div th:if="${param.error}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                    Invalid username and password.
+                                </div>
+
+                                <!-- Check for logout -->
+                                <div th:if="${param.logout}"class="alert alert-success col-xs-offset-1 col-xs-10">
+                                    You have been logged out.
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- First Name -->
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+
+                        <input type="text" th:field="*{firstName}" placeholder="First Name">
+                    </div>
+
+                    <!-- Last Name -->
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+
+                        <input type="text" th:field="*{lastName}" placeholder="Last Name">
+                    </div>
+
+
+                    <!-- Email -->
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+
+                        <input type="text" th:field="*{email}" placeholder="Email">
+                    </div>
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+
+                        <input type="text" th:field="*{Username}" placeholder="Username">
+                    </div>
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+
+                        <input type="password" th:field="*{password}" placeholder="Password" style="color:black">
+                    </div>
+
+                    <!-- Login/Submit Button -->
+                    <div style="margin-top: 10px" class="form-group">
+                        <div class="col-sm-6 controls">
+                            <button type="submit" class="btn btn-success">Login</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 </body>

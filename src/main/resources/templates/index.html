@@ -47,8 +47,9 @@
 								<ul class="dropdown">
 									<li><a href="#">In shop appointments</a></li>
 									<li><a href="#">At home appointments</a></li>
-									<li>My Appointment</li>
+									<li>My Upcoming Appointment</li>
 									<li>Barber schedule</li>
+									<li sec:authorize="hasRole(Manager)">Worker Schedule</li>
 								</ul>
 							</li>
 							<li><a href="/loginForm">Contact Us</a></li>
