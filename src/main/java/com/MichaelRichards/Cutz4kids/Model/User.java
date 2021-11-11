@@ -1,5 +1,6 @@
 package com.MichaelRichards.Cutz4kids.Model;
 
+import com.MichaelRichards.Cutz4kids.Token.ConfirmationToken;
 import com.MichaelRichards.Cutz4kids.UserValidator.ValidEmail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,10 +14,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 import java.sql.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "user")
@@ -59,6 +58,9 @@ public class User implements UserDetails {
 
     @Column(name = "enabled")
     private boolean enabled;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<ConfirmationToken> confirmationTokens;
 
     @Past
     @Transient
@@ -151,6 +153,14 @@ public class User implements UserDetails {
         this.userRole = userRoles;
     }
 
+    public List<ConfirmationToken> getConfirmationTokens() {
+        return confirmationTokens;
+    }
+
+    public void setConfirmationTokens(List<ConfirmationToken> confirmationTokens) {
+        this.confirmationTokens = confirmationTokens;
+    }
+
     @Override
     public String getPassword() {
         return password;
@@ -190,6 +200,8 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

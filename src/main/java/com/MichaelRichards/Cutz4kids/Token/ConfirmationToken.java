@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "confirmation_token")
 public class ConfirmationToken {
 
     public ConfirmationToken() {
@@ -20,23 +21,23 @@ public class ConfirmationToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "token")
     private String token;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "expires_at")
     private LocalDateTime expiresAt;
-    
-    @Column(nullable = false)
+
+    @Column(name = "confirmed_at")
     private LocalDateTime confirmedAt;
 
-    @ManyToOne
-    @JoinColumn(nullable = false,
-                name = "user_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
@@ -77,5 +78,17 @@ public class ConfirmationToken {
 
     public void setConfirmedAt(LocalDateTime confirmedAt) {
         this.confirmedAt = confirmedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "ConfirmationToken{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", createdAt=" + createdAt +
+                ", expiresAt=" + expiresAt +
+                ", confirmedAt=" + confirmedAt +
+                ", user=" + user +
+                '}';
     }
 }
