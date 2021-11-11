@@ -41,24 +41,29 @@
 					</div>
 					<div class="col-sm-10 text-right menu-1">
 						<ul>
-							<li class="active"><a href="index.html">Home</a></li>
-							<li><a href="single.html">Locations</a></li>
-							<li class="has-dropdown"><a href="single.html">Dropdown</a>
+							<li class="active"><a href="/">Home</a></li>
+							<li><a href="/Locations">Locations</a></li>
+							<li class="has-dropdown" sec:authorize="isAuthenticated()"><a href="#">Appointments</a>
 								<ul class="dropdown">
-									<li><a href="/loginForm">Infrastructure</a></li>
-									<li><a href="#">Residential</a></li>
-									<li><a href="#">Environmental</a></li>
-									<li><a href="#">Megabuilders</a></li>
+									<li><a href="#">In shop appointments</a></li>
+									<li><a href="#">At home appointments</a></li>
+									<li>My Appointment</li>
+									<li>Barber schedule</li>
 								</ul>
 							</li>
-							<li sec:authorize="!isAuthenticated()"><a href="/loginForm">Login</a></li>
-							<li sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a></li>
 							<li><a href="/loginForm">Contact Us</a></li>
+							<li sec:authorize="!isAuthenticated()"><a href="/loginForm">Login</a></li>
+							<li sec:authorize="isAuthenticated()"><a class="nav-link" href="javascript: document.logoutForm.submit()" >Logout</a></li>
 						</ul>
 					</div>
 				</div>
 
 			</div>
+		</div>
+		<div>
+			<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+				<input hidden type="submit" value="Sign Out"/>
+			</form>
 		</div>
 	</nav>
 	<div class="container">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head>
   <title>Login Page</title>
@@ -10,16 +10,51 @@
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>-->
+  <link rel="stylesheet" href="css/style.css">
 
-<!--  <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+  <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
 
-<div>
+<div style="text-align:center">
+  <nav class="fh5co-nav" role="navigation">
+    <div class="container">
+      <div class="top-menu">
+        <div class="row">
+          <div class="col-sm-2">
+            <div id="fh5co-logo"><a href="/">Cutz4kids<span>.</span></a></div>
+          </div>
+          <div class="col-sm-10 text-right menu-1">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/Locations">Locations</a></li>
+              <li class="has-dropdown"><a href="#">Dropdown</a>
+                <ul class="dropdown">
+                  <li><a href="/loginForm">Infrastructure</a></li>
+                  <li><a href="#">Residential</a></li>
+                  <li><a href="#">Environmental</a></li>
+                  <li ><a href="#">Megabuilders</a></li>
+                </ul>
+              </li>
+              <li sec:authorize="!isAuthenticated()" class="active"><a href="/loginForm">Login</a></li>
+              <li sec:authorize="isAuthenticated()"><a class="nav-link" href="javascript: document.logoutForm.submit()" >Logout</a></li>
+              <li><a href="/loginForm">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
 
-  <div id="loginbox" style="margin-top: 50px;"
+      </div>
+    </div>
+    <div>
+      <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+        <input hidden type="submit" value="Sign Out"/>
+      </form>
+    </div>
+  </nav>
+  <div id="loginbox" style="margin: auto; text-align:center"
        class="mainbox col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-2">
 
     <div class="panel panel-info">
