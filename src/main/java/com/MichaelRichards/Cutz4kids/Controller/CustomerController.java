@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CustomerController {
 
     @GetMapping("/ContactUs")
-    public String showLogInForm(){
+    public String showContactForm(){
+        return "ContactUs";
+    }
 
-
-        return "contact";
+    @GetMapping("/Locations")
+    public String showSingle(){
+        return "locations";
     }
 
 }
