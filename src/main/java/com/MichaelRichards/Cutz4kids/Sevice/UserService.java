@@ -51,25 +51,20 @@ public class UserService implements UserDetailsService{
 
 
 
-    public User findUserByUsername(String username) throws UsernameNotFoundException {
+    public Optional<User> findUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
-        if(user.isEmpty()){
-            throw new RuntimeException("Did not find user by the name - " + username);
-        }
-        else {
-            return user.get();
-        }
 
+        return user;
     }
 
-    public User findUserById(long id) throws UsernameNotFoundException{
+    public Optional<User> findUserById(long id) throws UsernameNotFoundException{
         Optional<User> user = userRepository.findById(id);
-        if(user.isEmpty()){
-            throw new RuntimeException("Did not find user by ID: - " + id);
-        }
-        else {
-            return user.get();
-        }
+        return user;
+    }
+
+    public Optional<User> findUserByEmail(String email) throws UsernameNotFoundException{
+        Optional<User> user = userRepository.findByEmail(email);
+        return user;
     }
 
     public List<User> searchBy(String theName) {
@@ -115,12 +110,14 @@ public class UserService implements UserDetailsService{
         }
 
         confirmationToken.setConfirmedAt(LocalDateTime.now());
-        UserService.enableUser(confirmationToken.getUser().getEmail());
+        enableUser(confirmationToken.getUser().getEmail());
 
         return "/";
     }
 
-    private static void enableUser(String email) {
+    private void enableUser(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        user.setEnabled(true);
     }
 }
 

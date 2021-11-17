@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +48,10 @@ public class signInController {
 
         System.out.println(user);
 
-        User temp  = userService.findUserByUsername(user.getUsername());
-        System.out.println(temp);
+        User temp  = userService.findUserByUsername(user.getUsername()).orElse(null);
+
+
+
 
         if(theResult.hasErrors()) {
             return "loginForm";
@@ -74,6 +77,27 @@ public class signInController {
             @Valid @ModelAttribute("user") User user,
             BindingResult theResult,
             Model model) {
+
+        User tempUsername = userService.findUserByUsername(user.getUsername()).orElse(null);
+        User tempEmail = userService.findUserByEmail(user.getEmail()).orElse(null);
+
+        System.out.println(tempUsername);
+
+
+        if(tempUsername != null || tempEmail != null){
+            model.addAttribute("User", new User());
+            if (tempUsername != null){
+                model.addAttribute("registrationError", "User name already exists.");
+            }
+            if (tempEmail != null){
+                model.addAttribute("", "Email already exists");
+            }
+
+            return "signUp";
+        }
+
+
+
 
 
         if(theResult.hasErrors()) {
