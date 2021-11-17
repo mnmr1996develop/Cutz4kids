@@ -31,32 +31,25 @@ public class RegistrationController {
     public String processSignUpForm(
             @Valid @ModelAttribute("user") User user,
             BindingResult theResult,
-            Model model) {
+            Model model, Error error) {
 
         User tempUsername = userService.findUserByUsername(user.getUsername()).orElse(null);
         User tempEmail = userService.findUserByEmail(user.getEmail()).orElse(null);
 
-        System.out.println(tempUsername);
-
-
-        if(tempUsername != null || tempEmail != null){
-            model.addAttribute("User", new User());
-            if (tempUsername != null){
-                model.addAttribute("registrationError", "User name already exists.");
-            }
-            if (tempEmail != null){
-                model.addAttribute("registrationError", "Email already exists");
-            }
-
-            return "signupForm";
+        if(theResult.hasErrors()) {
+            return "signUp";
         }
 
 
+        if(tempUsername != null || tempEmail != null){
+            if (tempUsername != null){
+                model.addAttribute("usernameRegistrationError" , "User name already exists.");
+            }
+            if (tempEmail != null){
+                model.addAttribute("emailRegistrationError", "Email already exists");
+            }
 
-
-
-        if(theResult.hasErrors()) {
-            return "signUp";
+            return "signupForm";
         }
         else {
             userService.save(user);

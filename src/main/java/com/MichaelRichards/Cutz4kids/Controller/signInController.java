@@ -22,6 +22,8 @@ public class signInController {
     @Autowired
     private UserService userService;
 
+
+
     @Autowired
     public signInController(UserService userService){
         this.userService = userService;
@@ -40,19 +42,9 @@ public class signInController {
     public String processSignInForm(
             @Valid @ModelAttribute("user") User user,
             BindingResult theResult) {
-
-        System.out.println(user);
-
-        User temp  = userService.findUserByUsername(user.getUsername()).orElse(null);
-
-
-
-
         if(theResult.hasErrors()) {
             return "loginForm";
         }
-
-
         userService.save(user);
 
         return "registration-confirmation";

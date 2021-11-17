@@ -20,11 +20,6 @@ import java.sql.Date;
 @Entity
 @Table(name = "user")
 @JsonIgnoreProperties(ignoreUnknown = true)
-//@DiscriminatorColumn(
-//        name="discriminator",
-//        discriminatorType=DiscriminatorType.STRING
-//)
-//@DiscriminatorValue(value="Customer")
 public class User implements UserDetails {
 
     @Id

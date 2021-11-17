@@ -2,11 +2,9 @@
 
 use `Cutz4kids`;
 
-drop table if exists `user`, `authorities`;
+drop table if exists `user`, `confirmation_token`;
 
 SET FOREIGN_KEY_CHECKS = 0;
-
-DROP TABLE IF EXISTS `confirmation_token`;
 
 
 CREATE TABLE `user` (
@@ -24,9 +22,10 @@ CREATE TABLE `user` (
   
   CREATE TABLE `confirmation_token` (
 	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`createdAt` DATETIME NOT NULL,
-	`expiresAt` DATETIME NOT NULL,
-    `confirmedAt` DATETIME,
+    `token` varchar(255) NOT NULL,
+	`created_at` DATETIME NOT NULL,
+	`expires_at` DATETIME NOT NULL,
+    `confirmed_at` DATETIME,
     `user_id` int(11) unsigned default null,
 	PRIMARY KEY (`id`),
  KEY `FK_USER_idx` (`user_id`),
@@ -64,4 +63,17 @@ CREATE VIEW Customers AS
         user
 	Where user.discriminator = "User";
 
+
+-- CREATE TABLE `user` (
+--   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+--   `first_name` varchar(45) DEFAULT NULL,
+--   `last_name` varchar(45) DEFAULT NULL,
+--   `username` varchar(45) DEFAULT NULL,
+--   `password` varchar(64) DEFAULT NULL,
+--   `email` varchar(45) DEFAULT NULL,
+--   `locked` boolean,
+--   `enabled` boolean,
+--   `discriminator` VARCHAR(255) NOT NULL,
+--   PRIMARY KEY (`id`)
+--   ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
