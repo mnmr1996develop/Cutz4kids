@@ -52,24 +52,20 @@ public class UserService implements UserDetailsService{
 
 
     public Optional<User> findUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
-
-        return user;
+        return userRepository.findByUsername(username);
     }
 
     public Optional<User> findUserById(long id) throws UsernameNotFoundException{
-        Optional<User> user = userRepository.findById(id);
-        return user;
+        return  userRepository.findById(id);
     }
 
     public Optional<User> findUserByEmail(String email) throws UsernameNotFoundException{
-        Optional<User> user = userRepository.findByEmail(email);
-        return user;
+        return userRepository.findByEmail(email);
     }
 
     public List<User> searchBy(String theName) {
 
-        List<User> results = null;
+        List<User> results;
 
         if (theName != null && (theName.trim().length() > 0)) {
             results = userRepository.findByFirstNameContainsOrLastNameContainsAllIgnoreCase(theName, theName);

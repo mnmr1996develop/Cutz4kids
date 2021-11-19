@@ -31,7 +31,7 @@ public class RegistrationController {
     public String processSignUpForm(
             @Valid @ModelAttribute("user") User user,
             BindingResult theResult,
-            Model model, Error error) {
+            Model model) {
 
         User tempUsername = userService.findUserByUsername(user.getUsername()).orElse(null);
         User tempEmail = userService.findUserByEmail(user.getEmail()).orElse(null);
