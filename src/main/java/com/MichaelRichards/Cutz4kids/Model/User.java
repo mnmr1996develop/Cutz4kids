@@ -73,16 +73,14 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.birthday = birthday;
-        this.locked = true;
-        this.enabled = true;
+        this.locked = false;
+        this.enabled = false;
         this.userRole = UserRoles.User;
     }
 
-    //    public LocalDateTime localDateTime;
-
 
     public User() {
-        enabled = true;
+        enabled = false;
         locked = false;
         this.userRole = UserRoles.User;
     }
