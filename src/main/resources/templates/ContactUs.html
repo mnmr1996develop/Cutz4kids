@@ -39,7 +39,7 @@
                     <ul>
                         <li><a href="/">Home</a></li>
                         <li><a href="/Locations">Locations</a></li>
-                        <li sec:authorize="isAuthenticated()"><a href="/Locations">Appointments</a></li>
+                        <li sec:authorize="isAuthenticated()"><a href="/Appointments">Appointments</a></li>
                         <li class="active"><a href="/ContactUs">Contact Us</a></li>
                         <li sec:authorize="!isAuthenticated()"><a href="/loginForm">Login</a></li>
                         <li sec:authorize="isAuthenticated()"><a class="nav-link" href="javascript: document.logoutForm.submit()" >Logout</a></li>

@@ -37,18 +37,10 @@
                 </div>
                 <div class="col-sm-10 text-right menu-1">
                     <ul>
-                        <li class="active"><a href="/">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a href="/Locations">Locations</a></li>
-                        <li class="has-dropdown" sec:authorize="isAuthenticated()"><a href="#">Appointments</a>
-                            <ul class="dropdown">
-                                <li><a href="#">In shop appointments</a></li>
-                                <li><a href="#">At home appointments</a></li>
-                                <li>My Upcoming Appointment</li>
-                                <li>Barber schedule</li>
-                                <li sec:authorize="hasRole(Manager)">Worker Schedule</li>
-                            </ul>
-                        </li>
-                        <li><a href="/loginForm">Contact Us</a></li>
+                        <li sec:authorize="isAuthenticated()"><a href="/Appointments">Appointments</a></li>
+                        <li><a href="/ContactUs">Contact Us</a></li>
                         <li sec:authorize="!isAuthenticated()"><a href="/loginForm">Login</a></li>
                         <li sec:authorize="isAuthenticated()"><a class="nav-link" href="javascript: document.logoutForm.submit()" >Logout</a></li>
                     </ul>

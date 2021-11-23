@@ -19,4 +19,9 @@ public class CustomerController {
         return "locations";
     }
 
+    @GetMapping("/Appointments")
+    public String showAppointmentPage(){
+        return "appointments";
+    }
+
 }
