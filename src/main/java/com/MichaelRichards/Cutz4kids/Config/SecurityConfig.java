@@ -50,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/appointments").authenticated()
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/processSignInForm")
