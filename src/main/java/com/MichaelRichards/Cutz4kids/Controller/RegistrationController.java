@@ -56,9 +56,9 @@ public class RegistrationController {
         }
     }
 
-    @GetMapping("/confirm")
-    public String confirm(@RequestParam("token") String token){
-        return userService.confirmToken(token);
-    }
+//    @GetMapping("/confirm")
+//    public String confirm(@RequestParam("token") String token){
+//        return userService.confirmToken(token);
+//    }
 
 }

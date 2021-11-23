@@ -1,6 +1,5 @@
 package com.MichaelRichards.Cutz4kids.Model;
 
-import com.MichaelRichards.Cutz4kids.Token.ConfirmationToken;
 import com.MichaelRichards.Cutz4kids.UserValidator.ValidEmail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,9 +53,6 @@ public class User implements UserDetails {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<ConfirmationToken> confirmationTokens;
-
     @Past
     @Transient
     @Column(name = "birthday")
@@ -74,13 +70,13 @@ public class User implements UserDetails {
         this.password = password;
         this.birthday = birthday;
         this.locked = false;
-        this.enabled = false;
+        this.enabled = true;
         this.userRole = UserRoles.User;
     }
 
 
     public User() {
-        enabled = false;
+        enabled = true;
         locked = false;
         this.userRole = UserRoles.User;
     }
@@ -144,14 +140,6 @@ public class User implements UserDetails {
 
     public void setUserRoles(UserRoles userRoles) {
         this.userRole = userRoles;
-    }
-
-    public List<ConfirmationToken> getConfirmationTokens() {
-        return confirmationTokens;
-    }
-
-    public void setConfirmationTokens(List<ConfirmationToken> confirmationTokens) {
-        this.confirmationTokens = confirmationTokens;
     }
 
     @Override

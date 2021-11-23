@@ -1,9 +1,7 @@
 package com.MichaelRichards.Cutz4kids.Sevice;
 
 import com.MichaelRichards.Cutz4kids.DAO.UserRepository;
-import com.MichaelRichards.Cutz4kids.Email.EmailSender;
 import com.MichaelRichards.Cutz4kids.Model.User;
-import com.MichaelRichards.Cutz4kids.Token.ConfirmationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,12 +27,6 @@ public class UserService implements UserDetailsService{
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private ConfirmationTokenService confirmationTokenService;
-
-    @Autowired
-    private EmailSender emailSender;
 
 
     public List<User> findAll(){
@@ -89,58 +81,20 @@ public class UserService implements UserDetailsService{
 
         String token = UUID.randomUUID().toString();
 
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(10),user);
 
-        String link = "http://localhost:8080/confirm?token=" + confirmationToken;
-        emailSender.send(user.getEmail(),buildEmailBody(user.getFirstName(), link));
-        System.out.println(confirmationToken);
-
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
         userRepository.save(user);
 
         return token;
     }
 
-    @Transactional
-    public String confirmToken(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenService.getConfirmationToken(token).orElseThrow(() -> new IllegalStateException("Token Not Found"));
 
-        if(confirmationToken.getConfirmedAt() != null){
-            throw new IllegalStateException("email already confirmed");
-        }
-
-        if(confirmationToken.getExpiredAt().isBefore(LocalDateTime.now())){
-            throw new IllegalStateException("Token expired");
-        }
-
-        confirmationToken.setConfirmedAt(LocalDateTime.now());
-        enableUser(confirmationToken.getUser().getEmail());
-
-        return "/";
-    }
 
     private void enableUser(String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
         user.setEnabled(true);
     }
 
-    private String buildEmailBody(String name, String link){
-        String emailBody=
-                "<!DOCTYPE html>\n" +
-                        "<html lang=\"en\">\n" +
-                        "<head>\n" +
-                        "    <meta charset=\"UTF-8\">\n" +
-                        "    <title>Title</title>\n" +
-                        "</head>\n" +
-                        "<body>\n" +
-                        "    <h1>welcome," +name+ "</h1>\n" +
-                        "    <a href=\""+link+"\">Click to verify email</a>\n" +
-                        "    \n" +
-                        "</body>\n" +
-                        "</html>";
 
-        return emailBody;
-    }
 
 
 }
